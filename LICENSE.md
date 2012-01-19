@@ -1,8 +1,6 @@
-# Kohana License Agreement
+# MIT License Agreement
 
-This license is a legal agreement between you and the Kohana Team for the use of Kohana Framework (the "Software"). By obtaining the Software you agree to comply with the terms and conditions of this license.
-
-Copyright (c) 2007-2010 Kohana Team  
+Copyright (c) 2012 Ebot Tabi <ebot.tabi@gmail.com>  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

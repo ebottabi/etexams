@@ -1,5 +1,5 @@
-# Kohana PHP Framework, version 3.2 (development)
+# ET Exams (Realtime online examination system)
 
-This is the current development version of [Kohana](http://kohanaframework.org/).
+This is the current development version of ET Exams (https://github.com/ebottabi/etexams.git).
 
-For the most current release, see the 3.1/master branch.
+Version 1.0.0
