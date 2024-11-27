@@ -1,0 +1,51 @@
+name: Caliptra Security
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "0 0 * * *" # Daily scan
+
+env:
+  REGISTRY: ghcr.io
+  SCANNER_IMAGE: ghcr.io/caliptrasecurity/agent:main
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: write
+      packages: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull scanner image
+        run: docker pull ${{ env.SCANNER_IMAGE }}
+
+      - name: Run Dependency Scanner
+        id: scanner
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/code \
+            -e SCAN_PATH=/code \
+            -e INPUT_FAIL_ON_SEVERITY=true \
+            -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+            -e GITHUB_REF_NAME=${{ github.ref_name }} \
+            -e GITHUB_SHA=${{ github.sha }} \
+            -e GITHUB_REPOSITORY=${{ github.repository }} \
+            -e GITHUB_EVENT_NAME=${{ github.event_name }} \
+            -e GITHUB_OUTPUT=$GITHUB_OUTPUT \
+            ${{ env.SCANNER_IMAGE }}
